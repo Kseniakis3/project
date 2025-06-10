@@ -11,6 +11,8 @@
 //      - Вывести в консоль сообщение о наведении с data-section.
 // Блок-схема: images/diagram.png.
 
+
+
 // Функция для управления прелоадером
 function showContent() {
     // Переменные для элементов прелоадера и контента
@@ -19,7 +21,7 @@ function showContent() {
 
     // Проверка наличия элементов
     if (!preloaderElement || !contentElement) {
-        console.error('Ошибка: Не найдены элементы preloader или content');
+        console.error('Ошибка: Не найдены элементы прелоадера или контента');
         return;
     }
 
@@ -29,7 +31,7 @@ function showContent() {
         preloaderElement.style.display = 'none';
         contentElement.style.display = 'block';
         contentElement.classList.add('show');
-        console.log('Контент отображен');
+        console.log('Контент отображён');
         // Проверка видимости контента
         if (window.getComputedStyle(contentElement).display === 'none') {
             console.error('Ошибка: Контент всё ещё скрыт, проверьте CSS');
@@ -38,10 +40,10 @@ function showContent() {
 }
 
 // Функция для загрузки данных из JSON
-async function fetchSectionsData() {
+async function fetchCardsData() {
     try {
         // Загрузка данных из data.json
-        const response = await fetch('/data/data.json');
+        const response = await fetch('/data/data.json'); // Если в папке data/, замените на '/data/data.json'
         if (!response.ok) {
             throw new Error(`Ошибка загрузки JSON: ${response.status}`);
         }
@@ -54,43 +56,43 @@ async function fetchSectionsData() {
     }
 }
 
-// Функция для динамического вывода блока разделов
-async function renderDynamicSections() {
+// Функция для динамического вывода блока карточек
+async function renderDynamicCards() {
     // Переменная для контейнера динамического блока
-    const dynamicSectionsContainer = document.getElementById('dynamic-sections');
+    const dynamicCardsContainer = document.getElementById('dynamic-cards');
 
     // Проверка наличия контейнера
-    if (!dynamicSectionsContainer) {
-        console.error('Ошибка: Контейнер для динамических разделов не найден');
+    if (!dynamicCardsContainer) {
+        console.error('Ошибка: Контейнер для динамических карточек не найден');
         return;
     }
 
     // Получение данных из JSON
-    const sectionsData = await fetchSectionsData();
-    if (!sectionsData) {
-        console.error('Ошибка: Данные разделов не загружены');
+    const cardsData = await fetchCardsData();
+    if (!cardsData) {
+        console.error('Ошибка: Данные карточек не загружены');
         return;
     }
 
     // Создание заголовка и списка
     const titleElement = document.createElement('h3');
-    titleElement.classList.add('dynamic-sections__title');
-    titleElement.textContent = 'Section List';
+    titleElement.classList.add('dynamic-cards__title');
+    titleElement.textContent = 'Список разделов';
     const listElement = document.createElement('ul');
-    listElement.classList.add('dynamic-sections__list');
+    listElement.classList.add('dynamic-cards__list');
 
     // Вывод элементов с помощью for...in
-    for (let sectionId in sectionsData) {
+    for (let cardId in cardsData) {
         const itemElement = document.createElement('li');
-        itemElement.classList.add('dynamic-sections__item');
+        itemElement.classList.add('dynamic-cards__item');
 
         const itemTitle = document.createElement('div');
-        itemTitle.classList.add('dynamic-sections__item-title');
-        itemTitle.textContent = sectionsData[sectionId].title;
+        itemTitle.classList.add('dynamic-cards__item-title');
+        itemTitle.textContent = cardsData[cardId].title;
 
         const itemDescription = document.createElement('p');
-        itemDescription.classList.add('dynamic-sections__item-description');
-        itemDescription.textContent = sectionsData[sectionId].description;
+        itemDescription.classList.add('dynamic-cards__item-description');
+        itemDescription.textContent = cardsData[cardId].description;
 
         itemElement.appendChild(itemTitle);
         itemElement.appendChild(itemDescription);
@@ -98,15 +100,15 @@ async function renderDynamicSections() {
     }
 
     // Добавление в контейнер
-    dynamicSectionsContainer.appendChild(titleElement);
-    dynamicSectionsContainer.appendChild(listElement);
-    console.log('Динамический блок разделов выведен');
+    dynamicCardsContainer.appendChild(titleElement);
+    dynamicCardsContainer.appendChild(listElement);
+    console.log('Динамический блок карточек выведен');
 }
 
-// Функция для вывода заголовков карточек разделов
-function loadSectionTitles() {
+// Функция для вывода заголовков карточек
+function loadCardTitles() {
     // Переменная для списка заголовков
-    const titlesList = document.getElementById('section-titles');
+    const titlesList = document.getElementById('card-titles');
 
     // Проверка наличия списка
     if (!titlesList) {
@@ -115,7 +117,7 @@ function loadSectionTitles() {
     }
 
     // Переменная для всех заголовков карточек
-    const titleElements = document.querySelectorAll('.section-card__title');
+    const titleElements = document.querySelectorAll('.card__title');
 
     // Проверка наличия заголовков
     if (titleElements.length === 0) {
@@ -124,65 +126,65 @@ function loadSectionTitles() {
     }
 
     // Формирование массива заголовков
-    const sectionTitles = Array.from(titleElements).map(element => element.textContent);
+    const cardTitles = Array.from(titleElements).map(element => element.textContent);
 
     // Очистка списка
     titlesList.innerHTML = '';
 
     // Вывод заголовков с помощью forEach
-    sectionTitles.forEach(title => {
+    cardTitles.forEach(title => {
         const listItem = document.createElement('li');
-        listItem.classList.add('section-titles__item');
+        listItem.classList.add('card-titles__item');
         listItem.textContent = title;
         titlesList.appendChild(listItem);
     });
 
-    console.log('Заголовки разделов загружены:', sectionTitles);
+    console.log('Заголовки карточек загружены:', cardTitles);
 }
 
-// Функция для обработки кликов и наведения на карточки разделов
+// Функция для обработки кликов и наведения на карточки
 function handleCardClick() {
     // Переменная для хранения всех карточек
-    const sectionCards = document.querySelectorAll('.section-card');
+    const cards = document.querySelectorAll('.card');
 
     // Проверка наличия карточек
-    if (sectionCards.length === 0) {
-        console.error('Ошибка: Карточки разделов не найдены');
+    if (cards.length === 0) {
+        console.error('Ошибка: Карточки не найдены');
         return;
     }
 
     // Добавление слушателей для каждой карточки
-    sectionCards.forEach(card => {
+    cards.forEach(card => {
         card.addEventListener('click', function() {
-            sectionCards.forEach(c => c.classList.remove('active'));
+            cards.forEach(c => c.classList.remove('active'));
             this.classList.add('active');
-            console.log(`Выбран раздел: ${this.dataset.section}`);
+            console.log(`Выбрана карточка: ${this.dataset.section}`);
         });
 
         card.addEventListener('mouseover', function() {
-            console.log(`Наведение на раздел: ${this.dataset.section}`);
+            console.log(`Наведение на карточку: ${this.dataset.section}`);
         });
     });
 }
 
 // Функция для обработки кликов по навигации
-function handleNavigationClick() {
+function handleLinksClick() {
     // Переменная для ссылок навигации
-    const navLinks = document.querySelectorAll('.navigation__link');
+    const links = document.querySelectorAll('.links-link');
 
     // Проверка наличия ссылок
-    if (navLinks.length === 0) {
+    if (links.length === 0) {
         console.error('Ошибка: Ссылки навигации не найдены');
         return;
     }
 
     // Добавление слушателей для ссылок
-    navLinks.forEach(link => {
+    links.forEach(link => {
         link.addEventListener('click', function(event) {
             event.preventDefault();
-            navLinks.forEach(l => l.classList.remove('navigation__link--active'));
-            this.classList.add('navigation__link--active');
-            console.log(`Выбран пункт навигации: ${this.dataset.nav}`);
+            links.forEach(l => l.classList.remove('links-link--active'));
+            this.classList.add('links-link--active');
+            console.log(`Выбран пункт навигации: ${this.dataset.page}`);
         });
     });
 }
@@ -200,16 +202,16 @@ function loadArticles(filterCategory = 'all') {
 
     // Массив статей с категориями
     const articlesData = [
-        { id: 'east', title: 'Ancient East Civilizations', category: 'ancient' },
-        { id: 'philosophy', title: 'Ancient Philosophy', category: 'ancient' },
-        { id: 'rome', title: 'Roman Empire', category: 'ancient' },
-        { id: 'greece', title: 'Ancient Greek Art', category: 'ancient' },
-        { id: 'byzantine', title: 'Byzantine Empire', category: 'medieval' },
-        { id: 'crusades', title: 'Crusades', category: 'medieval' },
-        { id: 'renaissance', title: 'Renaissance', category: 'modern' },
-        { id: 'discoveries', title: 'Great Geographical Discoveries', category: 'modern' },
-        { id: 'french-revolution', title: 'French Revolution', category: 'modern' },
-        { id: 'industrial-revolution', title: 'Industrial Revolution', category: 'contemporary' }
+        { id: 'east', title: 'Цивилизации Древнего Востока', category: 'ancient' },
+        { id: 'philosophy', title: 'Древняя философия', category: 'ancient' },
+        { id: 'rome', title: 'Римская империя', category: 'ancient' },
+        { id: 'greece', title: 'Искусство Древней Греции', category: 'ancient' },
+        { id: 'byzantine', title: 'Византийская империя', category: 'medieval' },
+        { id: 'crusades', title: 'Крестовые походы', category: 'medieval' },
+        { id: 'renaissance', title: 'Ренессанс', category: 'modern' },
+        { id: 'discoveries', title: 'Великие географические открытия', category: 'modern' },
+        { id: 'french-revolution', title: 'Французская революция', category: 'modern' },
+        { id: 'industrial-revolution', title: 'Промышленная революция', category: 'classic' }
     ];
 
     // Очистка списка
@@ -257,7 +259,7 @@ function filterArticles() {
             const selectedCategory = this.dataset.filter;
 
             // Проверка корректности категории
-            if (!['all', 'ancient', 'medieval', 'modern', 'contemporary'].includes(selectedCategory)) {
+            if (!['all', 'ancient', 'medieval', 'modern', 'classic'].includes(selectedCategory)) {
                 console.error('Ошибка: Неверная категория фильтра');
                 return;
             }
@@ -320,21 +322,112 @@ function handleScrollTop() {
     });
 }
 
+// Функция для инициализации Swiper
+function initSwiper() {
+    // Проверка наличия Swiper
+    if (!window.Swiper) {
+        console.error('Ошибка: Swiper не загружен');
+        return;
+    }
+
+    // Проверка наличия контейнера карусели
+    const swiperContainer = document.querySelector('.cards__carousel');
+    if (!swiperContainer) {
+        console.error('Ошибка: Контейнер карусели (.cards__carousel) не найден');
+        return;
+    }
+
+    // Проверка наличия кнопок навигации
+    const prevButton = swiperContainer.querySelector('.swiper-button-prev');
+    const nextButton = swiperContainer.querySelector('.swiper-button-next');
+    const pagination = swiperContainer.querySelector('.swiper-pagination');
+    console.log('Кнопки навигации:', { prevButton: !!prevButton, nextButton: !!nextButton, pagination: !!pagination });
+
+    // Инициализация карусели
+    const swiper = new Swiper('.cards__carousel', {
+        slidesPerView: 2,
+        spaceBetween: 20,
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            1200: {
+                slidesPerView: 2,
+            },
+            768: {
+                slidesPerView: 1,
+            }
+        }
+    });
+
+    // Проверка инициализации
+    console.log('Swiper инициализирован:', swiper);
+
+    // Добавление отладки для навигации
+    if (prevButton) {
+        prevButton.addEventListener('click', () => console.log('Нажата кнопка "Назад"'));
+    }
+    if (nextButton) {
+        nextButton.addEventListener('click', () => console.log('Нажата кнопка "Вперёд"'));
+    }
+}
+
+// Функция для обработки формы с LocalStorage
+function handleSearchForm() {
+    // Переменные для формы и поля ввода
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+
+    // Проверка наличия элементов
+    if (!searchForm || !searchInput) {
+        console.error('Ошибка: Форма или поле поиска не найдены');
+        return;
+    }
+
+    // Восстановление данных из localStorage
+    const savedSearch = localStorage.getItem('searchQuery');
+    if (savedSearch) {
+        searchInput.value = savedSearch;
+        console.log('Восстановлен поисковый запрос:', savedSearch);
+    }
+
+    // Обработка отправки формы
+    searchForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const query = searchInput.value.trim();
+        if (query) {
+            localStorage.setItem('searchQuery', query);
+            console.log('Поисковый запрос сохранён:', query);
+            alert(`Поиск: ${query}`);
+        } else {
+            console.warn('Поисковый запрос пустой');
+        }
+    });
+}
+
 // Основная функция
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Скрипт успешно загружен!');
+    console.log('Скрипт успешно загружен');
     try {
-        // Инициализация всех динамических функций
+        // Инициализация всех функций
         setTimeout(showContent, 3000);
-        loadSectionTitles();
-        renderDynamicSections();
+        initSwiper();
+        loadCardTitles();
+        renderDynamicCards();
         handleCardClick();
-        handleNavigationClick();
+        handleLinksClick();
         loadArticles();
         filterArticles();
         handleArticleClick();
         handleScrollTop();
+        handleSearchForm();
     } catch (error) {
-        console.error('Ошибка при инициализации скрипта:', error);
+        console.error('Ошибка при инициализации:', error);
     }
 });

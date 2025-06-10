@@ -1,34 +1,52 @@
-@import url('base.css');
-@import url('components.css');
-@import url('fonts.css');
-@import url('main.css');
+/* Импорты минимальны, чтобы избежать конфликтов */
+
 @import url('normalize.css');
-@import url('style.css');
-@font-face {
-    font-family: 'Aeroport';
-    src: url('../fonts/aeroport-regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-    /* Ускоряет загрузку, используя запасной шрифт */
-}
+
+/* Базовые стили */
 
 * {
     box-sizing: border-box;
 }
 
 body {
-    font-family: 'Aeroport', Arial, sans-serif;
+    font-family: Arial, sans-serif;
     font-weight: 400;
     font-style: normal;
     font-size: 16px;
     line-height: 1.6;
     color: #333;
     background-color: #f5f5f5;
-    /* Изменён фон, чтобы не был серым */
     margin: 0;
     padding: 0;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 20px 0;
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+
+/* Прелоадер */
 
 .preloader {
     position: fixed;
@@ -49,7 +67,7 @@ body {
     color: white;
 }
 
-.preloader__dots {
+.preloader-dots {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,7 +75,7 @@ body {
     margin-bottom: 30px;
 }
 
-.preloader__dot {
+.preloader-dot {
     width: 16px;
     height: 16px;
     background-color: white;
@@ -65,15 +83,15 @@ body {
     animation: wave 1.4s ease-in-out infinite both;
 }
 
-.preloader__dot:nth-child(1) {
+.preloader-dot:nth-child(1) {
     animation-delay: -0.32s;
 }
 
-.preloader__dot:nth-child(2) {
+.preloader-dot:nth-child(2) {
     animation-delay: -0.16s;
 }
 
-.preloader__dot:nth-child(3) {
+.preloader-dot:nth-child(3) {
     animation-delay: 0s;
 }
 
@@ -111,20 +129,24 @@ body {
     opacity: 0;
     transition: opacity 0.5s ease;
     display: none;
-    /* Добавлено для синхронизации с HTML */
 }
 
 .content.show {
     opacity: 1;
     display: block;
-    /* Убедимся, что контент виден */
 }
+
+
+/* Контейнер */
 
 .container {
     max-width: 1440px;
     margin: 0 auto;
     padding: 0 20px;
 }
+
+
+/* Шапка */
 
 .header {
     background: white;
@@ -133,7 +155,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.navigation__list {
+.links-list {
     list-style: none;
     display: flex;
     justify-content: space-between;
@@ -142,11 +164,11 @@ body {
     padding: 0;
 }
 
-.navigation__item {
+.links-item {
     display: inline;
 }
 
-.navigation__link {
+.links-link {
     text-decoration: none;
     padding: 12px 24px;
     border-radius: 8px;
@@ -155,40 +177,79 @@ body {
     color: #4A90E2;
 }
 
-.navigation__link:hover {
+.links-link:hover {
     background-color: #f0f8ff;
     transform: translateY(-2px);
 }
 
-.navigation__link--active {
+.links-link--active {
     background-color: #4A90E2;
     color: white;
 }
 
-.main__title {
+
+/* Главная секция */
+
+.section-title {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     font-size: 2.5rem;
     color: #333;
 }
 
-.sections {
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.search-form__input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 6px 0 0 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-form__input:focus {
+    border-color: #4A90E2;
+}
+
+.search-form__button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    background-color: #4A90E2;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-form__button:hover {
+    background-color: #357ABD;
+}
+
+
+/* Карточки и карусель */
+
+.cards {
     margin-bottom: 60px;
 }
 
-.sections__title {
+.cards__title {
     margin-bottom: 30px;
     font-size: 2rem;
 }
 
-.sections__grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+.cards__carousel {
+    position: relative;
     margin-bottom: 40px;
+    width: 100%;
 }
 
-.section-card {
+.card {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -196,18 +257,19 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     cursor: pointer;
+    width: 100%;
 }
 
-.section-card:hover {
+.card:hover {
     transform: translateY(-5px);
 }
 
-.section-card.active {
+.card.active {
     border: 2px solid #4A90E2;
     background-color: #f0f8ff;
 }
 
-.section-card__image {
+.card__image {
     width: 100%;
     height: 150px;
     border-radius: 8px;
@@ -222,39 +284,39 @@ body {
     background-repeat: no-repeat;
 }
 
-.section-card__image--ancient {
+.card__image--ancient {
     background: linear-gradient(rgba(139, 69, 19, 0.8), rgba(205, 133, 63, 0.8));
     background-image: url('../images/section-ancient-world.jpg');
 }
 
-.section-card__image--medieval {
+.card__image--medieval {
     background: linear-gradient(rgba(47, 79, 79, 0.8), rgba(112, 128, 144, 0.8));
     background-image: url('../images/section-middle-ages.jpg');
 }
 
-.section-card__image--modern {
+.card__image--modern {
     background: linear-gradient(rgba(128, 0, 128, 0.8), rgba(147, 112, 219, 0.8));
     background-image: url('../images/section-modern-history.jpg');
 }
 
-.section-card__image--contemporary {
+.card__image--classic {
     background: linear-gradient(rgba(0, 139, 139, 0.8), rgba(32, 178, 170, 0.8));
     background-image: url('../images/section-contemporary.jpg');
 }
 
-.section-card__title {
+.card__title {
     margin-bottom: 10px;
     font-size: 1.1rem;
     color: #333;
 }
 
-.section-card__description {
+.card__description {
     margin: 0;
     color: #666;
     font-size: 0.9rem;
 }
 
-.section-titles {
+.card-titles {
     list-style: none;
     padding: 0;
     margin: 20px 0;
@@ -263,7 +325,7 @@ body {
     gap: 15px;
 }
 
-.section-titles__item {
+.card-titles__item {
     background: #f0f8ff;
     padding: 8px 16px;
     border-radius: 6px;
@@ -271,7 +333,7 @@ body {
     color: #333;
 }
 
-.dynamic-sections {
+.dynamic-cards {
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -279,48 +341,51 @@ body {
     margin-bottom: 20px;
 }
 
-.dynamic-sections__title {
+.dynamic-cards__title {
     font-size: 1.5rem;
     margin-bottom: 15px;
     color: #333;
 }
 
-.dynamic-sections__list {
+.dynamic-cards__list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.dynamic-sections__item {
+.dynamic-cards__item {
     padding: 10px 0;
     border-bottom: 1px solid #eee;
 }
 
-.dynamic-sections__item:last-child {
+.dynamic-cards__item:last-child {
     border-bottom: none;
 }
 
-.dynamic-sections__item-title {
+.dynamic-cards__item-title {
     font-weight: bold;
     color: #4A90E2;
     margin-bottom: 5px;
 }
 
-.dynamic-sections__item-description {
+.dynamic-cards__item-description {
     color: #666;
     font-size: 0.9rem;
 }
 
-.video-section {
+
+/* Видео */
+
+.video {
     margin-bottom: 60px;
 }
 
-.video-section__title {
+.video__title {
     margin-bottom: 30px;
     font-size: 2rem;
 }
 
-.video-section__grid {
+.video__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
@@ -328,7 +393,9 @@ body {
 }
 
 .video-player {
-    background: #4A90E2;
+    background: linear-gradient(rgba(74, 144, 226, 0.7), rgba(74, 144, 226, 0.7)), url('../images/video.jpg');
+    background-size: cover;
+    background-position: center;
     color: white;
     padding: 40px;
     border-radius: 10px;
@@ -339,22 +406,6 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-    background: linear-gradient(rgba(74, 144, 226, 0.7), rgba(74, 144, 226, 0.7));
-    background-image: url('../images/video.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.video-player::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(74, 144, 226, 0.7);
-    border-radius: 10px;
 }
 
 .video-player__title {
@@ -392,6 +443,9 @@ body {
     margin: 0;
     line-height: 1.5;
 }
+
+
+/* Статьи */
 
 .articles__title {
     margin-bottom: 15px;
@@ -498,6 +552,9 @@ body {
     text-decoration: underline;
 }
 
+
+/* Футер */
+
 .footer {
     background: white;
     padding: 30px 0;
@@ -531,6 +588,9 @@ body {
     text-decoration: underline;
 }
 
+
+/* Кнопка скролла */
+
 .scroll-top {
     position: fixed;
     bottom: 20px;
@@ -557,24 +617,94 @@ body {
     background-color: #357ABD;
 }
 
+
+/* Стили Swiper */
+
+.swiper {
+    width: 100%;
+    padding: 20px 0;
+    overflow: hidden;
+}
+
+.swiper-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto !important;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+    color: #4A90E2;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    z-index: 10;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+    background-color: #ffffff;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+    font-size: 20px;
+}
+
+.swiper-pagination {
+    position: relative;
+    bottom: 0;
+    margin-top: 20px;
+}
+
+.swiper-pagination-bullet {
+    background: #4A90E2;
+    opacity: 0.5;
+    width: 10px;
+    height: 10px;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+}
+
+
+/* Адаптивность */
+
 @media (max-width: 1200px) {
-    .sections__grid {
-        grid-template-columns: repeat(2, 1fr);
+    .swiper-slide {
+        width: 50% !important;
     }
 }
 
 @media (max-width: 768px) {
-    .video-section__grid {
+    .video__grid {
         grid-template-columns: 1fr;
     }
-    .sections__grid {
-        grid-template-columns: 1fr;
+    .swiper-slide {
+        width: 100% !important;
     }
-    .navigation__list {
+    .links-list {
         flex-direction: column;
         gap: 10px;
     }
     .articles__filters {
         flex-wrap: wrap;
+    }
+    .search-form__input {
+        width: 200px;
     }
 }
