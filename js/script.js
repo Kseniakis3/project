@@ -1,3 +1,16 @@
+// Алгоритм для функции handleCardClick:
+// 1. Найти все элементы с классом .section-card и сохранить в переменную cards.
+// 2. Проверить, существуют ли карточки:
+//    - Если нет, вывести ошибку в консоль и завершить выполнение.
+// 3. Для каждой карточки добавить два слушателя событий:
+//    - Слушатель click:
+//      - Удалить класс .active у всех карточек.
+//      - Добавить класс .active к текущей карточке.
+//      - Вывести в консоль название раздела (data-section).
+//    - Слушатель mouseover:
+//      - Вывести в консоль сообщение о наведении с data-section.
+// Блок-схема: images/diagram.png.
+
 // Функция для управления прелоадером
 function showContent() {
     const preloader = document.getElementById('preloader');
@@ -17,20 +30,29 @@ function showContent() {
     }, 500);
 }
 
-// Функция для обработки кликов по карточкам разделов
+// Функция для обработки кликов и наведения на карточки разделов
 function handleCardClick() {
+    // Переменная для хранения всех карточек
     const cards = document.querySelectorAll('.section-card');
 
+    // Проверка наличия карточек
     if (cards.length === 0) {
         console.error('Ошибка: Карточки разделов не найдены');
         return;
     }
 
+    // Добавление слушателей для каждой карточки
     cards.forEach(card => {
+        // Слушатель для клика
         card.addEventListener('click', function() {
             cards.forEach(c => c.classList.remove('active'));
             this.classList.add('active');
             console.log(`Выбран раздел: ${this.dataset.section}`);
+        });
+
+        // Слушатель для наведения
+        card.addEventListener('mouseover', function() {
+            console.log(`Наведение на раздел: ${this.dataset.section}`);
         });
     });
 }
@@ -113,7 +135,7 @@ function handleArticleClick() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Скрипт успешно загружен!');
     try {
-        setTimeout(showContent, 1000);
+        setTimeout(showContent, 3000);
         handleCardClick();
         handleNavigationClick();
         loadArticles();
