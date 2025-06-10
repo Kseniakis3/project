@@ -11,7 +11,6 @@
 //      - Вывести в консоль сообщение о наведении с data-section.
 // Блок-схема: images/diagram.png.
 
-
 // Функция для управления прелоадером
 function showContent() {
     // Переменные для элементов прелоадера и контента
@@ -31,7 +30,84 @@ function showContent() {
         contentElement.style.display = 'block';
         contentElement.classList.add('show');
         console.log('Контент отображен');
-    }, 500);
+        // Дополнительная проверка видимости контента
+        if (window.getComputedStyle(contentElement).display === 'none') {
+            console.error('Ошибка: Контент всё ещё скрыт, проверьте CSS');
+        }
+    }, 1000); // Увеличена задержка для надёжности
+}
+
+// Функция для создания объекта из элементов секции разделов
+function createSectionsObject() {
+    // Переменная для карточек разделов
+    const sectionCards = document.querySelectorAll('.section-card');
+
+    // Проверка наличия карточек
+    if (sectionCards.length === 0) {
+        console.error('Ошибка: Карточки разделов не найдены');
+        return null;
+    }
+
+    // Формирование объекта
+    const sectionsObject = {};
+    sectionCards.forEach(card => {
+        const sectionId = card.dataset.section;
+        const title = card.querySelector('.section-card__title').textContent;
+        const description = card.querySelector('.section-card__description').textContent;
+        sectionsObject[sectionId] = { title, description };
+    });
+
+    console.log('Объект разделов создан:', sectionsObject);
+    return sectionsObject;
+}
+
+// Функция для динамического вывода блока разделов
+function renderDynamicSections() {
+    // Переменная для контейнера динамического блока
+    const dynamicSectionsContainer = document.getElementById('dynamic-sections');
+
+    // Проверка наличия контейнера
+    if (!dynamicSectionsContainer) {
+        console.error('Ошибка: Контейнер для динамических разделов не найден');
+        return;
+    }
+
+    // Получение объекта разделов
+    const sectionsObject = createSectionsObject();
+    if (!sectionsObject) {
+        console.error('Ошибка: Объект разделов не создан');
+        return;
+    }
+
+    // Создание заголовка и списка
+    const titleElement = document.createElement('h3');
+    titleElement.classList.add('dynamic-sections__title');
+    titleElement.textContent = 'Список разделов';
+    const listElement = document.createElement('ul');
+    listElement.classList.add('dynamic-sections__list');
+
+    // Вывод элементов с помощью for...in
+    for (let sectionId in sectionsObject) {
+        const itemElement = document.createElement('li');
+        itemElement.classList.add('dynamic-sections__item');
+
+        const itemTitle = document.createElement('div');
+        itemTitle.classList.add('dynamic-sections__item-title');
+        itemTitle.textContent = sectionsObject[sectionId].title;
+
+        const itemDescription = document.createElement('p');
+        itemDescription.classList.add('dynamic-sections__item-description');
+        itemDescription.textContent = sectionsObject[sectionId].description;
+
+        itemElement.appendChild(itemTitle);
+        itemElement.appendChild(itemDescription);
+        listElement.appendChild(itemElement);
+    }
+
+    // Добавление в контейнер
+    dynamicSectionsContainer.appendChild(titleElement);
+    dynamicSectionsContainer.appendChild(listElement);
+    console.log('Динамический блок разделов выведен');
 }
 
 // Функция для вывода заголовков карточек разделов
@@ -258,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Инициализация всех динамических функций
         setTimeout(showContent, 3000);
         loadSectionTitles();
+        renderDynamicSections();
         handleCardClick();
         handleNavigationClick();
         loadArticles();

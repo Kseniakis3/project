@@ -1,8 +1,16 @@
+@import url('base.css');
+@import url('components.css');
+@import url('fonts.css');
+@import url('main.css');
+@import url('normalize.css');
+@import url('style.css');
 @font-face {
     font-family: 'Aeroport';
     src: url('../fonts/aeroport-regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
+    /* Ускоряет загрузку, используя запасной шрифт */
 }
 
 * {
@@ -17,6 +25,7 @@ body {
     line-height: 1.6;
     color: #333;
     background-color: #f5f5f5;
+    /* Изменён фон, чтобы не был серым */
     margin: 0;
     padding: 0;
 }
@@ -101,10 +110,14 @@ body {
 .content {
     opacity: 0;
     transition: opacity 0.5s ease;
+    display: none;
+    /* Добавлено для синхронизации с HTML */
 }
 
 .content.show {
     opacity: 1;
+    display: block;
+    /* Убедимся, что контент виден */
 }
 
 .container {
@@ -256,6 +269,46 @@ body {
     border-radius: 6px;
     font-size: 0.9rem;
     color: #333;
+}
+
+.dynamic-sections {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.dynamic-sections__title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.dynamic-sections__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dynamic-sections__item {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.dynamic-sections__item:last-child {
+    border-bottom: none;
+}
+
+.dynamic-sections__item-title {
+    font-weight: bold;
+    color: #4A90E2;
+    margin-bottom: 5px;
+}
+
+.dynamic-sections__item-description {
+    color: #666;
+    font-size: 0.9rem;
 }
 
 .video-section {
