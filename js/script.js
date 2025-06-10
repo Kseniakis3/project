@@ -34,6 +34,43 @@ function showContent() {
     }, 500);
 }
 
+// Функция для вывода заголовков карточек разделов
+function loadSectionTitles() {
+    // Переменная для списка заголовков
+    const titlesList = document.getElementById('section-titles');
+
+    // Проверка наличия списка
+    if (!titlesList) {
+        console.error('Ошибка: Список заголовков не найден');
+        return;
+    }
+
+    // Переменная для всех заголовков карточек
+    const titleElements = document.querySelectorAll('.section-card__title');
+
+    // Проверка наличия заголовков
+    if (titleElements.length === 0) {
+        console.error('Ошибка: Заголовки карточек не найдены');
+        return;
+    }
+
+    // Формирование массива заголовков
+    const sectionTitles = Array.from(titleElements).map(element => element.textContent);
+
+    // Очистка списка
+    titlesList.innerHTML = '';
+
+    // Вывод заголовков с помощью forEach
+    sectionTitles.forEach(title => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('section-titles__item');
+        listItem.textContent = title;
+        titlesList.appendChild(listItem);
+    });
+
+    console.log('Заголовки разделов загружены:', sectionTitles);
+}
+
 // Функция для обработки кликов и наведения на карточки разделов
 function handleCardClick() {
     // Переменная для хранения всех карточек
@@ -183,17 +220,50 @@ function handleArticleClick() {
     });
 }
 
+// Функция для обработки кнопки скролла вверх
+function handleScrollTop() {
+    // Переменная для кнопки скролла
+    const scrollTopButton = document.getElementById('scroll-top');
+
+    // Проверка наличия кнопки
+    if (!scrollTopButton) {
+        console.error('Ошибка: Кнопка скролла не найдена');
+        return;
+    }
+
+    // Слушатель клика для плавного скролла
+    scrollTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        console.log('Скролл к началу страницы');
+    });
+
+    // Слушатель прокрутки для показа/скрытия кнопки
+    window.addEventListener('scroll', () => {
+        // Проверка позиции прокрутки
+        if (window.scrollY > 300) {
+            scrollTopButton.classList.add('visible');
+        } else {
+            scrollTopButton.classList.remove('visible');
+        }
+    });
+}
+
 // Основная функция
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Скрипт успешно загружен!');
     try {
         // Инициализация всех динамических функций
         setTimeout(showContent, 3000);
+        loadSectionTitles();
         handleCardClick();
         handleNavigationClick();
-        loadArticles(); // Загрузка всех статей по умолчанию
-        filterArticles(); // Инициализация фильтрации
+        loadArticles();
+        filterArticles();
         handleArticleClick();
+        handleScrollTop();
     } catch (error) {
         console.error('Ошибка при инициализации скрипта:', error);
     }

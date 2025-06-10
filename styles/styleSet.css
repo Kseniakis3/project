@@ -241,6 +241,23 @@ body {
     font-size: 0.9rem;
 }
 
+.section-titles {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.section-titles__item {
+    background: #f0f8ff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
 .video-section {
     margin-bottom: 60px;
 }
@@ -268,12 +285,12 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     position: relative;
     background: linear-gradient(rgba(74, 144, 226, 0.7), rgba(74, 144, 226, 0.7));
     background-image: url('../images/video.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .video-player::before {
@@ -334,27 +351,6 @@ body {
     color: #666;
 }
 
-.articles__filter-button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.articles__filter-button:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-.articles__filter-button.active {
-    background-color: #ffffff;
-    color: #4A90E2;
-    font-weight: bold;
-}
-
 .articles__container {
     background: #4A90E2;
     color: white;
@@ -391,6 +387,34 @@ body {
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 500;
+}
+
+.articles__filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.articles__filter-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.articles__filter-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.articles__filter-button.active {
+    background-color: #ffffff;
+    color: #4A90E2;
+    font-weight: bold;
 }
 
 .articles__list {
@@ -452,6 +476,32 @@ body {
 .footer__link:hover {
     color: #2c5aa0;
     text-decoration: underline;
+}
+
+.scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+}
+
+.scroll-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scroll-top:hover {
+    background-color: #357ABD;
 }
 
 @media (max-width: 1200px) {
