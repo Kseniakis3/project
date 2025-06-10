@@ -11,21 +11,25 @@
 //      - Вывести в консоль сообщение о наведении с data-section.
 // Блок-схема: images/diagram.png.
 
+
 // Функция для управления прелоадером
 function showContent() {
-    const preloader = document.getElementById('preloader');
-    const content = document.getElementById('content');
+    // Переменные для элементов прелоадера и контента
+    const preloaderElement = document.getElementById('preloader');
+    const contentElement = document.getElementById('content');
 
-    if (!preloader || !content) {
+    // Проверка наличия элементов
+    if (!preloaderElement || !contentElement) {
         console.error('Ошибка: Не найдены элементы preloader или content');
         return;
     }
 
-    preloader.style.opacity = '0';
+    // Плавное скрытие прелоадера
+    preloaderElement.style.opacity = '0';
     setTimeout(() => {
-        preloader.style.display = 'none';
-        content.style.display = 'block';
-        content.classList.add('show');
+        preloaderElement.style.display = 'none';
+        contentElement.style.display = 'block';
+        contentElement.classList.add('show');
         console.log('Контент отображен');
     }, 500);
 }
@@ -33,24 +37,22 @@ function showContent() {
 // Функция для обработки кликов и наведения на карточки разделов
 function handleCardClick() {
     // Переменная для хранения всех карточек
-    const cards = document.querySelectorAll('.section-card');
+    const sectionCards = document.querySelectorAll('.section-card');
 
     // Проверка наличия карточек
-    if (cards.length === 0) {
+    if (sectionCards.length === 0) {
         console.error('Ошибка: Карточки разделов не найдены');
         return;
     }
 
     // Добавление слушателей для каждой карточки
-    cards.forEach(card => {
-        // Слушатель для клика
+    sectionCards.forEach(card => {
         card.addEventListener('click', function() {
-            cards.forEach(c => c.classList.remove('active'));
+            sectionCards.forEach(c => c.classList.remove('active'));
             this.classList.add('active');
             console.log(`Выбран раздел: ${this.dataset.section}`);
         });
 
-        // Слушатель для наведения
         card.addEventListener('mouseover', function() {
             console.log(`Наведение на раздел: ${this.dataset.section}`);
         });
@@ -59,13 +61,16 @@ function handleCardClick() {
 
 // Функция для обработки кликов по навигации
 function handleNavigationClick() {
+    // Переменная для ссылок навигации
     const navLinks = document.querySelectorAll('.navigation__link');
 
+    // Проверка наличия ссылок
     if (navLinks.length === 0) {
         console.error('Ошибка: Ссылки навигации не найдены');
         return;
     }
 
+    // Добавление слушателей для ссылок
     navLinks.forEach(link => {
         link.addEventListener('click', function(event) {
             event.preventDefault();
@@ -77,52 +82,99 @@ function handleNavigationClick() {
 }
 
 // Функция для динамической загрузки списка статей
-function loadArticles() {
+function loadArticles(filterCategory = 'all') {
+    // Переменная для списка статей
     const articlesList = document.getElementById('articles-list');
 
+    // Проверка наличия списка
     if (!articlesList) {
         console.error('Ошибка: Список статей не найден');
         return;
     }
 
-    const articles = [
-        { id: 'east', title: 'Цивилизации Древнего Востока' },
-        { id: 'philosophy', title: 'Античная философия' },
-        { id: 'rome', title: 'Римская империя' },
-        { id: 'greece', title: 'Древнегреческое искусство' },
-        { id: 'byzantine', title: 'Византийская империя' },
-        { id: 'crusades', title: 'Крестовые походы' },
-        { id: 'renaissance', title: 'Эпоха Возрождения' },
-        { id: 'discoveries', title: 'Великие географические открытия' },
-        { id: 'french-revolution', title: 'Французская революция' },
-        { id: 'industrial-revolution', title: 'Промышленная революция' }
+    // Массив статей с категориями
+    const articlesData = [
+        { id: 'east', title: 'Цивилизации Древнего Востока', category: 'ancient' },
+        { id: 'philosophy', title: 'Античная философия', category: 'ancient' },
+        { id: 'rome', title: 'Римская империя', category: 'ancient' },
+        { id: 'greece', title: 'Древнегреческое искусство', category: 'ancient' },
+        { id: 'byzantine', title: 'Византийская империя', category: 'medieval' },
+        { id: 'crusades', title: 'Крестовые походы', category: 'medieval' },
+        { id: 'renaissance', title: 'Эпоха Возрождения', category: 'modern' },
+        { id: 'discoveries', title: 'Великие географические открытия', category: 'modern' },
+        { id: 'french-revolution', title: 'Французская революция', category: 'modern' },
+        { id: 'industrial-revolution', title: 'Промышленная революция', category: 'contemporary' }
     ];
 
+    // Очистка списка
     articlesList.innerHTML = '';
-    articles.forEach(article => {
-        const li = document.createElement('li');
-        li.classList.add('articles__item');
-        const a = document.createElement('a');
-        a.href = '#';
-        a.classList.add('articles__link');
-        a.dataset.article = article.id;
-        a.textContent = article.title;
-        li.appendChild(a);
-        articlesList.appendChild(li);
+
+    // Фильтрация и отображение статей
+    articlesData.forEach(article => {
+        // Проверка категории для фильтрации
+        if (filterCategory === 'all' || article.category === filterCategory) {
+            const listItem = document.createElement('li');
+            listItem.classList.add('articles__item');
+            const link = document.createElement('a');
+            link.href = '#';
+            link.classList.add('articles__link');
+            link.dataset.article = article.id;
+            link.textContent = article.title;
+            listItem.appendChild(link);
+            articlesList.appendChild(listItem);
+        }
     });
 
-    console.log('Список статей загружен динамически');
+    console.log(`Список статей загружен с фильтром: ${filterCategory}`);
+}
+
+// Функция для фильтрации статей по категориям
+function filterArticles() {
+    // Переменная для кнопок фильтрации
+    const filterButtons = document.querySelectorAll('.articles__filter-button');
+
+    // Проверка наличия кнопок
+    if (filterButtons.length === 0) {
+        console.error('Ошибка: Кнопки фильтрации не найдены');
+        return;
+    }
+
+    // Добавление слушателей для кнопок
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Удаление активного класса у всех кнопок
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Добавление активного класса текущей кнопке
+            this.classList.add('active');
+
+            // Получение категории для фильтра
+            const selectedCategory = this.dataset.filter;
+
+            // Проверка корректности категории
+            if (!['all', 'ancient', 'medieval', 'modern', 'contemporary'].includes(selectedCategory)) {
+                console.error('Ошибка: Неверная категория фильтра');
+                return;
+            }
+
+            // Загрузка отфильтрованного списка
+            loadArticles(selectedCategory);
+            console.log(`Применён фильтр: ${selectedCategory}`);
+        });
+    });
 }
 
 // Функция для обработки кликов по статьям
 function handleArticleClick() {
+    // Переменная для списка статей
     const articlesList = document.getElementById('articles-list');
 
+    // Проверка наличия списка
     if (!articlesList) {
         console.error('Ошибка: Список статей не найден');
         return;
     }
 
+    // Делегирование событий для ссылок
     articlesList.addEventListener('click', event => {
         if (event.target.classList.contains('articles__link')) {
             event.preventDefault();
@@ -135,10 +187,12 @@ function handleArticleClick() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Скрипт успешно загружен!');
     try {
+        // Инициализация всех динамических функций
         setTimeout(showContent, 3000);
         handleCardClick();
         handleNavigationClick();
-        loadArticles();
+        loadArticles(); // Загрузка всех статей по умолчанию
+        filterArticles(); // Инициализация фильтрации
         handleArticleClick();
     } catch (error) {
         console.error('Ошибка при инициализации скрипта:', error);

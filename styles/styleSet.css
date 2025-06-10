@@ -334,6 +334,27 @@ body {
     color: #666;
 }
 
+.articles__filter-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.articles__filter-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.articles__filter-button.active {
+    background-color: #ffffff;
+    color: #4A90E2;
+    font-weight: bold;
+}
+
 .articles__container {
     background: #4A90E2;
     color: white;
@@ -449,5 +470,8 @@ body {
     .navigation__list {
         flex-direction: column;
         gap: 10px;
+    }
+    .articles__filters {
+        flex-wrap: wrap;
     }
 }
