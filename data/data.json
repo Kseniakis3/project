@@ -1,0 +1,18 @@
+{
+    "ancient": {
+        "title": "Ancient World",
+        "description": "Ancient civilizations"
+    },
+    "medieval": {
+        "title": "Middle-earth",
+        "description": "The age of knights and castles"
+    },
+    "modern": {
+        "title": "Modern Era",
+        "description": "Era of discovery and revolution"
+    },
+    "contemporary": {
+        "title": "Contemporary",
+        "description": "20th-21st century history"
+    }
+}

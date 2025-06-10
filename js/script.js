@@ -30,39 +30,32 @@ function showContent() {
         contentElement.style.display = 'block';
         contentElement.classList.add('show');
         console.log('Контент отображен');
-        // Дополнительная проверка видимости контента
+        // Проверка видимости контента
         if (window.getComputedStyle(contentElement).display === 'none') {
             console.error('Ошибка: Контент всё ещё скрыт, проверьте CSS');
         }
-    }, 1000); // Увеличена задержка для надёжности
+    }, 1000);
 }
 
-// Функция для создания объекта из элементов секции разделов
-function createSectionsObject() {
-    // Переменная для карточек разделов
-    const sectionCards = document.querySelectorAll('.section-card');
-
-    // Проверка наличия карточек
-    if (sectionCards.length === 0) {
-        console.error('Ошибка: Карточки разделов не найдены');
+// Функция для загрузки данных из JSON
+async function fetchSectionsData() {
+    try {
+        // Загрузка данных из data.json
+        const response = await fetch('/data/data.json');
+        if (!response.ok) {
+            throw new Error(`Ошибка загрузки JSON: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Данные из JSON загружены:', data);
+        return data;
+    } catch (error) {
+        console.error('Ошибка при загрузке JSON:', error);
         return null;
     }
-
-    // Формирование объекта
-    const sectionsObject = {};
-    sectionCards.forEach(card => {
-        const sectionId = card.dataset.section;
-        const title = card.querySelector('.section-card__title').textContent;
-        const description = card.querySelector('.section-card__description').textContent;
-        sectionsObject[sectionId] = { title, description };
-    });
-
-    console.log('Объект разделов создан:', sectionsObject);
-    return sectionsObject;
 }
 
 // Функция для динамического вывода блока разделов
-function renderDynamicSections() {
+async function renderDynamicSections() {
     // Переменная для контейнера динамического блока
     const dynamicSectionsContainer = document.getElementById('dynamic-sections');
 
@@ -72,32 +65,32 @@ function renderDynamicSections() {
         return;
     }
 
-    // Получение объекта разделов
-    const sectionsObject = createSectionsObject();
-    if (!sectionsObject) {
-        console.error('Ошибка: Объект разделов не создан');
+    // Получение данных из JSON
+    const sectionsData = await fetchSectionsData();
+    if (!sectionsData) {
+        console.error('Ошибка: Данные разделов не загружены');
         return;
     }
 
     // Создание заголовка и списка
     const titleElement = document.createElement('h3');
     titleElement.classList.add('dynamic-sections__title');
-    titleElement.textContent = 'Список разделов';
+    titleElement.textContent = 'Section List';
     const listElement = document.createElement('ul');
     listElement.classList.add('dynamic-sections__list');
 
     // Вывод элементов с помощью for...in
-    for (let sectionId in sectionsObject) {
+    for (let sectionId in sectionsData) {
         const itemElement = document.createElement('li');
         itemElement.classList.add('dynamic-sections__item');
 
         const itemTitle = document.createElement('div');
         itemTitle.classList.add('dynamic-sections__item-title');
-        itemTitle.textContent = sectionsObject[sectionId].title;
+        itemTitle.textContent = sectionsData[sectionId].title;
 
         const itemDescription = document.createElement('p');
         itemDescription.classList.add('dynamic-sections__item-description');
-        itemDescription.textContent = sectionsObject[sectionId].description;
+        itemDescription.textContent = sectionsData[sectionId].description;
 
         itemElement.appendChild(itemTitle);
         itemElement.appendChild(itemDescription);
@@ -207,16 +200,16 @@ function loadArticles(filterCategory = 'all') {
 
     // Массив статей с категориями
     const articlesData = [
-        { id: 'east', title: 'Цивилизации Древнего Востока', category: 'ancient' },
-        { id: 'philosophy', title: 'Античная философия', category: 'ancient' },
-        { id: 'rome', title: 'Римская империя', category: 'ancient' },
-        { id: 'greece', title: 'Древнегреческое искусство', category: 'ancient' },
-        { id: 'byzantine', title: 'Византийская империя', category: 'medieval' },
-        { id: 'crusades', title: 'Крестовые походы', category: 'medieval' },
-        { id: 'renaissance', title: 'Эпоха Возрождения', category: 'modern' },
-        { id: 'discoveries', title: 'Великие географические открытия', category: 'modern' },
-        { id: 'french-revolution', title: 'Французская революция', category: 'modern' },
-        { id: 'industrial-revolution', title: 'Промышленная революция', category: 'contemporary' }
+        { id: 'east', title: 'Ancient East Civilizations', category: 'ancient' },
+        { id: 'philosophy', title: 'Ancient Philosophy', category: 'ancient' },
+        { id: 'rome', title: 'Roman Empire', category: 'ancient' },
+        { id: 'greece', title: 'Ancient Greek Art', category: 'ancient' },
+        { id: 'byzantine', title: 'Byzantine Empire', category: 'medieval' },
+        { id: 'crusades', title: 'Crusades', category: 'medieval' },
+        { id: 'renaissance', title: 'Renaissance', category: 'modern' },
+        { id: 'discoveries', title: 'Great Geographical Discoveries', category: 'modern' },
+        { id: 'french-revolution', title: 'French Revolution', category: 'modern' },
+        { id: 'industrial-revolution', title: 'Industrial Revolution', category: 'contemporary' }
     ];
 
     // Очистка списка
