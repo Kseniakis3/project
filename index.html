@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Образовательная платформа</title>
+    <!-- Подключение Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css">
+    <link rel="stylesheet" href="styles/styleSet.css">
+</head>
+
+<body>
+    <!-- Прелоадер -->
+    <div id="preloader" class="preloader">
+        <div class="preloader__content">
+            <div class="preloader-dots">
+                <div class="preloader-dot"></div>
+                <div class="preloader-dot"></div>
+                <div class="preloader-dot"></div>
+            </div>
+            <div class="preloader__text">Загрузка...</div>
+        </div>
+    </div>
+    <!-- Основной контент -->
+    <div id="content" class="content" style="display: none;">
+        <header class="header">
+            <div class="container">
+                <nav class="links">
+                    <ul class="links-list">
+                        <li class="links-item"><a href="#" class="links-link" data-page="lectures">Лекции</a></li>
+                        <li class="links-item"><a href="#" class="links-link" data-page="search">Поиск</a></li>
+                        <li class="links-item"><a href="#" class="links-link" data-page="menu">Меню</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="container">
+                <section class="hero">
+                    <h1 class="section-title">Образовательная платформа</h1>
+                    <form id="search-form" class="search-form">
+                        <input type="text" id="search-input" class="search-form__input" placeholder="Поиск по историческим темам..." required>
+                        <button type="submit" class="search-form__button">Найти</button>
+                    </form>
+                </section>
+
+                <section class="cards">
+                    <h2 class="cards__title">Основные разделы</h2>
+                    <!-- Карусель Swiper -->
+                    <div class="swiper cards__carousel">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="card" data-section="ancient">
+                                    <div class="card__image card__image--ancient">Древний мир</div>
+                                    <h3 class="card__title">Древний мир</h3>
+                                    <p class="card__description">Древние цивилизации</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card" data-section="medieval">
+                                    <div class="card__image card__image--medieval">Средневековье</div>
+                                    <h3 class="card__title">Средневековье</h3>
+                                    <p class="card__description">Эпоха рыцарей и замков</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card" data-section="modern">
+                                    <div class="card__image card__image--modern">Новое время</div>
+                                    <h3 class="card__title">Новое время</h3>
+                                    <p class="card__description">Эпоха открытий и революций</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="card" data-section="classic">
+                                    <div class="card__image card__image--classic">Современность</div>
+                                    <h3 class="card__title">Современность</h3>
+                                    <p class="card__description">История XX-XXI веков</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Навигация Swiper -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                        <!-- Пагинация Swiper -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <ul id="card-titles" class="card-titles"></ul>
+                    <div id="dynamic-cards" class="dynamic-cards"></div>
+                </section>
+
+                <section class="video">
+                    <h2 class="video__title">Видеолекции</h2>
+                    <div class="video__grid">
+                        <div class="video-player">
+                            <h3 class="video-player__title">Видеоплеер</h3>
+                        </div>
+                        <div class="lecturer-info">
+                            <h3 class="lecturer-info__title">Лектор</h3>
+                            <p class="lecturer-info__name">Профессор Иван И.</p>
+                            <p class="lecturer-info__description">Доктор исторических наук, специалист по древней истории</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="articles">
+                    <h2 class="articles__title">Последние статьи</h2>
+                    <p class="articles__description">Ознакомьтесь с нашими новыми публикациями</p>
+                    <div class="articles__container">
+                        <div class="articles__header">Список статей</div>
+                        <div class="articles__filters">
+                            <button class="articles__filter-button active" data-filter="all">Все</button>
+                            <button class="articles__filter-button" data-filter="ancient">Древний мир</button>
+                            <button class="articles__filter-button" data-filter="medieval">Средневековье</button>
+                            <button class="articles__filter-button" data-filter="modern">Новое время</button>
+                            <button class="articles__filter-button" data-filter="classic">Современность</button>
+                        </div>
+                        <ul id="articles-list" class="articles__list"></ul>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__contacts">
+                    <p class="footer__contact">Email: <a href="mailto:info@example.com" class="footer__link">info@example.com</a></p>
+                    <p class="footer__contact">Телефон: +7 (800) 123-45-67</p>
+                </div>
+                <p class="footer__text">Разработчик: Иван Иванов</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Кнопка скролла вверх -->
+    <button id="scroll-top" class="scroll-top">↑ Вверх</button>
+    <!-- Подключение Swiper JS -->
+    <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
+    <script src="js/script.js" defer></script>
+</body>
+
+</html>
